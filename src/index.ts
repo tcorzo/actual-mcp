@@ -13,6 +13,7 @@
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { SSEServerTransport } from '@modelcontextprotocol/sdk/server/sse.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
+import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
 import dotenv from 'dotenv';
 import express, { NextFunction, Request, Response } from 'express';
 import { parseArgs } from 'node:util';
@@ -166,16 +167,30 @@ async function main(): Promise<void> {
 
     // Log bearer auth status
     if (enableBearer) {
-      console.error('Bearer authentication enabled for SSE endpoints');
+      console.error('Bearer authentication enabled for HTTP endpoints');
     } else {
       console.error('Bearer authentication disabled - endpoints are public');
     }
 
-    // Placeholder for future HTTP transport (stateless)
-    app.post('/mcp', bearerAuth, async (req: Request, res: Response) => {
-      res.status(501).json({ error: 'HTTP transport not implemented yet' });
+    // Streamable HTTP transport handler (stateless, JSON responses only)
+    app.all('/mcp', bearerAuth, async (req: Request, res: Response) => {
+      // Create a new transport instance for each request (stateless)
+      const streamableTransport = new StreamableHTTPServerTransport({
+        sessionIdGenerator: undefined, // Stateless mode - no session management
+        enableJsonResponse: true, // Use JSON responses instead of SSE streaming
+      });
+
+      // Connect the server to this transport
+      await server.connect(streamableTransport);
+
+      // Handle the request
+      await streamableTransport.handleRequest(req, res, req.body);
+
+      // Close the transport after handling the request
+      await streamableTransport.close();
     });
 
+    // Legacy SSE endpoints (backward compatibility)
     app.get('/sse', bearerAuth, (req: Request, res: Response) => {
       transport = new SSEServerTransport('/messages', res);
       server.connect(transport).then(() => {
@@ -198,7 +213,9 @@ async function main(): Promise<void> {
       if (error) {
         console.error('Error:', error);
       } else {
-        console.error(`Actual Budget MCP Server (SSE) started on port ${resolvedPort}`);
+        console.error(`Actual Budget MCP Server running on port ${resolvedPort}`);
+        console.error(`  - Streamable HTTP: POST/GET http://localhost:${resolvedPort}/mcp`);
+        console.error(`  - Legacy SSE: GET http://localhost:${resolvedPort}/sse`);
       }
     });
   } else {
