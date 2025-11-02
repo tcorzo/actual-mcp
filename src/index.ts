@@ -172,22 +172,19 @@ async function main(): Promise<void> {
       console.error('Bearer authentication disabled - endpoints are public');
     }
 
+    // Create Streamable HTTP transport (stateless, JSON responses only)
+    const streamableTransport = new StreamableHTTPServerTransport({
+      sessionIdGenerator: undefined, // Stateless mode - no session management
+      enableJsonResponse: true, // Use JSON responses instead of SSE streaming
+    });
+
+    // Connect the server to the streamable transport
+    await server.connect(streamableTransport);
+
     // Streamable HTTP transport handler (stateless, JSON responses only)
     app.all('/mcp', bearerAuth, async (req: Request, res: Response) => {
-      // Create a new transport instance for each request (stateless)
-      const streamableTransport = new StreamableHTTPServerTransport({
-        sessionIdGenerator: undefined, // Stateless mode - no session management
-        enableJsonResponse: true, // Use JSON responses instead of SSE streaming
-      });
-
-      // Connect the server to this transport
-      await server.connect(streamableTransport);
-
-      // Handle the request
+      // Handle the request using the connected transport
       await streamableTransport.handleRequest(req, res, req.body);
-
-      // Close the transport after handling the request
-      await streamableTransport.close();
     });
 
     // Legacy SSE endpoints (backward compatibility)
