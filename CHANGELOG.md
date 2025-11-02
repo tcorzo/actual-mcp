@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.1](https://github.com/tcorzo/actual-mcp/compare/v1.6.0...v1.6.1) (2025-11-02)
+
+
+### Bug Fixes
+
+* stop instantiating a server for each request ([40e8e20](https://github.com/tcorzo/actual-mcp/commit/40e8e20b268cdef8af2d62385868e7d674c3f7f9))
+
 ## [1.6.0](https://github.com/tcorzo/actual-mcp/compare/v1.5.0...v1.6.0) (2025-11-02)
 
 
