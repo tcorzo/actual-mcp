@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.0](https://github.com/tcorzo/actual-mcp/compare/v1.5.0...v1.6.0) (2025-11-02)
+
+
+### Features
+
+* remove npm ci and publish steps from release workflow ([d8176bc](https://github.com/tcorzo/actual-mcp/commit/d8176bc12a4dcb18bfeeb298ddd64de13de07b9f))
+
 ## [1.5.0](https://github.com/tcorzo/actual-mcp/compare/v1.4.0...v1.5.0) (2025-11-02)
 
 
