@@ -7,27 +7,27 @@ jobs:
   release-please:
     runs-on: ubuntu-latest
     steps:
-      - uses: googleapis/release-please-action@v4
+      - uses: googleapis/release-please-action@v4.4.0
         id: release
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           release-type: node
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v5.0.0
         if: ${{ steps.release.outputs.release_created }}
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v6.0.0
         if: ${{ steps.release.outputs.release_created }}
         with:
           node-version: 22
           registry-url: https://registry.npmjs.org/
       - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3.6.0
         if: ${{ steps.release.outputs.release_created }}
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v6.18.0
         if: ${{ steps.release.outputs.release_created }}
         with:
           push: true
