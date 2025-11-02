@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.5.0](https://github.com/tcorzo/actual-mcp/compare/v1.4.0...v1.5.0) (2025-11-02)
+
+
+### Features
+
+* Implement streamable HTTP transport for MCP server ([3796b39](https://github.com/tcorzo/actual-mcp/commit/3796b39ff7ff0a6d9ada981b32ed5736b1d46574))
+* Update release workflow to use GitHub Container Registry ([56746db](https://github.com/tcorzo/actual-mcp/commit/56746dbe27e519860ab71e79de15c381c97bac60))
+
 ## [1.4.0](https://github.com/s-stefanov/actual-mcp/compare/v1.3.0...v1.4.0) (2025-10-18)
 
 
