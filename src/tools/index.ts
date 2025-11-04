@@ -28,6 +28,7 @@ import * as getRules from './rules/get-rules/index.js';
 import * as updateRule from './rules/update-rule/index.js';
 import * as spendingByCategory from './spending-by-category/index.js';
 import * as updateTransaction from './update-transaction/index.js';
+import * as importTransactions from './import-transactions/index.js';
 
 const readTools = [
   getTransactions,
@@ -54,6 +55,7 @@ const writeTools = [
   updateRule,
   deleteRule,
   updateTransaction,
+  importTransactions,
 ];
 
 export const setupTools = (server: Server, enableWrite: boolean): void => {

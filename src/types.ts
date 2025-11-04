@@ -73,6 +73,26 @@ export const UpdateTransactionArgsSchema = z.object({
 
 export type UpdateTransactionArgs = z.infer<typeof UpdateTransactionArgsSchema>;
 
+export const ImportTransactionsArgsSchema = z.object({
+  accountId: z.string().describe('The ID of the account to import transactions into'),
+  transactions: z
+    .array(
+      z.object({
+        date: z.string().describe('Transaction date in YYYY-MM-DD format'),
+        amount: z.number().describe('Transaction amount in cents (negative for expenses, positive for income)'),
+        payee_name: z.string().optional().describe('Name of the payee'),
+        imported_payee: z.string().optional().describe('Original payee name from import source'),
+        notes: z.string().optional().describe('Transaction notes'),
+        imported_id: z.string().optional().describe('Unique identifier from import source to prevent duplicates'),
+        cleared: z.boolean().optional().describe('Whether the transaction is cleared'),
+        category: z.string().optional().describe('Category ID for the transaction'),
+      })
+    )
+    .describe('Array of transactions to import'),
+});
+
+export type ImportTransactionsArgs = z.infer<typeof ImportTransactionsArgsSchema>;
+
 // Additional types used in implementation
 export interface CategoryGroupInfo {
   id: string;
