@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.7.0](https://github.com/tcorzo/actual-mcp/compare/v1.6.1...v1.7.0) (2025-11-04)
+
+
+### Features
+
+* add import-transactions tool with schema and handler ([7e7069f](https://github.com/tcorzo/actual-mcp/commit/7e7069f7be766e73d1be3ee2f0f36081933e8c62))
+
+
+### Bug Fixes
+
+* ensure transactions are correctly typed when imported ([b7a2845](https://github.com/tcorzo/actual-mcp/commit/b7a2845d6c220e15e7d336beb3ad3ba899572220))
+
 ## [1.6.1](https://github.com/tcorzo/actual-mcp/compare/v1.6.0...v1.6.1) (2025-11-02)
 
 
