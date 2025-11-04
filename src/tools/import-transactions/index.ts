@@ -5,6 +5,7 @@ import { initActualApi } from '../../actual-api.js';
 import { successWithJson, errorFromCatch } from '../../utils/response.js';
 import { ImportTransactionsArgsSchema, type ImportTransactionsArgs, ToolInput } from '../../types.js';
 import type { ImportTransactionsResult } from './types.js';
+import { ImportTransactionEntity } from '@actual-app/api/@types/loot-core/src/types/models/import-transaction.js';
 
 export const schema = {
   name: 'import-transactions',
@@ -25,7 +26,10 @@ export async function handler(args: ImportTransactionsArgs): Promise<CallToolRes
 
     // Import transactions using the Actual API
     // The API will run rules, reconcile duplicates, and create transfers automatically
-    const result = (await api.importTransactions(accountId, transactions)) as ImportTransactionsResult;
+    const result = (await api.importTransactions(
+      accountId,
+      transactions as ImportTransactionEntity[]
+    )) as ImportTransactionsResult;
 
     // Format the response
     const summary = {
